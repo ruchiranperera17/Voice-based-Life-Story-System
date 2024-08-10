@@ -25,7 +25,7 @@ jobs:
         cache: 'npm'
 
     - name: Install dependencies (Backend)
-      run: npm ci
+      run: npm ci --cache .npm --prefer-offline --no-audit --no-fund
       working-directory: ./server
 
     - name: Build Backend
