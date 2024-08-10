@@ -27,3 +27,18 @@ export const getQuestions = (req, res, next) => {
         console.log(error);
     }
 }
+
+export const catchAnswers = (req, res, next) => {
+
+    try {
+
+        let answers = [];
+        answers = req.body.data;
+
+        console.log(answers);
+        res.status(200).json("Okay");
+        
+    } catch (error) {
+        console.log(error);
+    }
+}
