@@ -35,8 +35,8 @@ export const catchAnswers = (req, res, next) => {
         let answers = [];
         answers = req.body.data;
 
-        console.log(answers);
-        res.status(200).json("Okay");
+        console.log(req.body);
+        res.status(200).json("Okay Works");
         
     } catch (error) {
         console.log(error);
