@@ -16,10 +16,11 @@ export const getQuestions = (req, res, next) => {
     ];
 
     try {
-
+        console.log("Hit 1");
         const randomIndex = Math.floor(Math.random() * questions.length);
         let question =  questions[randomIndex];
 
+        console.log("Hit 2")
         res.status(200).json(question);
         
     } catch (error) {
