@@ -2,7 +2,7 @@
 
 export const getQuestions = (req, res, next) => {
 
-    const questions = [
+    /*const questions = [
         "Can you tell me more about your painting hobbies?",
         "What kind of landscapes and portraits did you enjoy creating?",
         "How often did you practice playing the piano?",
@@ -13,9 +13,11 @@ export const getQuestions = (req, res, next) => {
         "Were there any particular challenges you faced while painting or playing the piano?",
         "What did you enjoy most about painting and playing the piano?",
         "Did you share your artwork or piano performances with others?"
-    ];
+    ];*/
 
     try {
+
+        res.status(200).json("Work");
         console.log("Hit 1");
         const randomIndex = Math.floor(Math.random() * questions.length);
         let question =  questions[randomIndex];
