@@ -25,4 +25,4 @@ jobs:
         cache: 'npm'
     - run:
         cd server
-        npm ci 
+        npm i 
