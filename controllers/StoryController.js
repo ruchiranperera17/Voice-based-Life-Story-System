@@ -17,6 +17,8 @@ const retrieveResponses = async (response_id) => {
 
 export const buildStorySummary = async (req, res, next) => {
 
+    res.status(200).json("eORK");
+
     const response_id = "668d32cfa4b669ea0d6f7579"; // ! Replace with function (When start to generate)
     const patient_name = "Tom Cruise"; // ! patient details [Array]
     const patient_id = "668e573fee886ad68ad77a24";
