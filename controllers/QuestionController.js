@@ -1,3 +1,4 @@
+import OpenAI from "openai";
 
 
 export const getQuestions = (req, res, next) => {
@@ -28,15 +29,30 @@ export const getQuestions = (req, res, next) => {
     }
 }
 
-export const catchAnswers = (req, res, next) => {
+export const catchAnswers = async (req, res, next) => {
 
     try {
 
-        let answers = [];
-        answers = req.body.data;
+        const openai = new OpenAI({
+            apiKey: process.env.OPEN_AI_API,
+        });
 
-        console.log(req.body);
-        res.status(200).json("Okay Works");
+        let answers = [];
+        answers = req.body;
+
+        console.log(answers?.answers[0]?.answer);
+        const prompt = `Given the user's response: '${JSON.stringify(answers?.answers[0]?.answer)}', generate a friendly follow-up question that encourages further engagement and is relevant to the user's answer. The follow-up question should be conversational, open-ended, and should invite the user to share more details or thoughts.`;
+
+        const followupQuestion = await openai.chat.completions.create({
+            model: "gpt-3.5-turbo",
+            messages: [{ role: "user", content: prompt }],
+            temperature: 0.7,
+            top_p: 1,
+            });
+        
+        const nextQuestion = followupQuestion.choices[0].message.content;
+        console.log(nextQuestion);
+        res.status(200).json(nextQuestion);
         
     } catch (error) {
         console.log(error);
