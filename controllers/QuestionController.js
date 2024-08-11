@@ -57,7 +57,7 @@ export const catchAnswers = async (req, res, next) => {
         console.log(answers?.answers[0]?.answer);
         const prompt = `Given the user's response: '${JSON.stringify(answers?.answers[0]?.answer)}', generate a friendly follow-up question that encourages further engagement and is relevant to the user's answer. 
         The follow-up question should be conversational, open-ended, and should invite the user to share more details or thoughts.
-        If the response is vague or indicates no specific topic, instead, randomly choose one of the following topics to start the conversation:'${JSON.stringify(questions)}'
+        If the response is vague or indicates no specific topic or requests to change the topic, instead, randomly choose one of the following topics to start the conversation:'${JSON.stringify(questions)}'
         The generated prompt should smoothly transition into the selected topic or delve deeper into the user's initial response.`;
 
         const followupQuestion = await openai.chat.completions.create({
