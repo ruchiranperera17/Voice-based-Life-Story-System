@@ -50,6 +50,7 @@ export const catchAnswers = async (req, res, next) => {
             top_p: 1,
             });
         
+            // Send new quis
         const nextQuestion = followupQuestion.choices[0].message.content;
         console.log(nextQuestion);
         res.status(200).json(nextQuestion);
