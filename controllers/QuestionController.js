@@ -1,7 +1,7 @@
 import OpenAI from "openai";
 
 export const responseToUser = async (req, res, next)  => {
-    const userInput = req.body; // Capture the user’s response
+    const userInput = req.body?.promptInput; // Capture the user’s response
 
     console.log(userInput);
 
