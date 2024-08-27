@@ -1,23 +1,27 @@
 import OpenAI from "openai";
 
 export const responseToUser = async (req, res, next)  => {
-    const userInput = "Im good thank you.How ARE you?"; // Capture the user’s response
+    const userInput = req.body; // Capture the user’s response
+
+    console.log(userInput);
 
     const openai = new OpenAI({
         apiKey: process.env.OPEN_AI_API,
     });
 
-    const prompt = 
-    [
-        {
-            "role": "system",
-            "content": "You are an assistant that provides sentiment analysis. For each input, respond with a JSON object that includes 'message' and 'sentiment'. The message should be friendly and tailored to the sentiment: if the sentiment is positive, just acknowledge it; if the sentiment is negative, acknowledge it and invite the user to chat further."
-        },
-        {
-            "role": "user",
-            "content": `Analyze the sentiment of the following text: ${userInput}. Provide a JSON response with a friendly message and sentiment status. If the sentiment is negative, include an invitation to chat further; if positive, invite user to have chat regarding past memories.`
-        }
-    ]
+    const prompt = userInput
+
+    // const prompt = 
+    // [
+    //     {
+    //         "role": "system",
+    //         "content": "You are an assistant that provides sentiment analysis. For each input, respond with a JSON object that includes 'message' and 'sentiment'. The message should be friendly and tailored to the sentiment: if the sentiment is positive, just acknowledge it; if the sentiment is negative, acknowledge it and invite the user to chat further."
+    //     },
+    //     {
+    //         "role": "user",
+    //         "content": `Analyze the sentiment of the following text: ${userInput}. Provide a JSON response with a friendly message and sentiment status. If the sentiment is negative, include an invitation to chat further; if positive, invite user to have chat regarding past memories.`
+    //     }
+    // ]
 
     const followupQuestion = await openai.chat.completions.create({
         model: "gpt-3.5-turbo",
