@@ -10,7 +10,7 @@ router.post("/answers", catchAnswers);
 router.get("/summary", buildStorySummary);
 router.get("/narratives", buildStoryNarratives);
 router.get("/storyline/:id", buildCompletedStoryLine);
-router.get("/responseToUser", responseToUser);
+router.post("/responseToUser", responseToUser);
 router.get("/retrieveUser", retrieveUserDetails);
 
 export default router;
