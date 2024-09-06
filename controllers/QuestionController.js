@@ -1,7 +1,8 @@
 import OpenAI from "openai";
 
 export const responseToUser = async (req, res, next)  => {
-    const userInput = req.body?.promptInput; // Capture the user’s response
+    const userInput = req.body?.userResponse; // Capture the user’s response
+    const status = req.body?.status; // Capture the user’s response
 
     console.log(userInput);
 
@@ -9,7 +10,7 @@ export const responseToUser = async (req, res, next)  => {
         apiKey: process.env.OPEN_AI_API,
     });
 
-    const status = userInput;
+    
     let prompt;
 
     switch (status) {
