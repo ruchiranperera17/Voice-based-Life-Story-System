@@ -1,29 +1,35 @@
 import OpenAI from "openai";
 
 export const responseToUser = async (req, res, next)  => {
-    const userResponse = req.body?.userResponse; // Capture the user’s response
-    const status = req.body?.status; // Capture the user’s response
+    try {
+        const userResponse = req.body?.userResponse; // Capture the user’s response
+        const status = req.body?.status; // Capture the user’s response
+    
+        console.log(userResponse);
+        console.log(status);
+        console.log(req.body);
+    
+        let prompt; let result;
+    
+        switch (status) {
+            case "END_GREET_USER":
+                prompt = `Analyze the sentiment of the following text from the user and respond with a friendly message in a JSON object. If the sentiment is negative, provide a sympathetic message and suggest chatting about past life stories. If the sentiment is positive, respond cheerfully and invite the user to discuss their memories. Here is the user’s response: ${userResponse}. Provide your response in the following JSON format:\n\n{ "message": "<your_message>", "status": "<negative/positive>" }`;
+                result = await chatResponse(prompt);
+                break;
+            case "ASK_FOR_SPECIFIC_QUESTION":
+                prompt = `Analyze the following user response to determine if it indicates support for starting a chat. Reply with "true" if the response suggests the user is willing to start a chat, and "false" otherwise. Here is the user’s response: ${userResponse}.`;
+                result = await chatResponse(prompt);
+                console.log(result);
+                break;
+    
+        } res.status(200).json(result);
 
-    console.log(userResponse);
-    console.log(status);
-
-    let prompt; let result;
-
-    switch (status) {
-        case "END_GREET_USER":
-            prompt = `Analyze the sentiment of the following text from the user and respond with a friendly message in a JSON object. If the sentiment is negative, provide a sympathetic message and suggest chatting about past life stories. If the sentiment is positive, respond cheerfully and invite the user to discuss their memories. Here is the user’s response: ${userResponse}. Provide your response in the following JSON format:\n\n{ "message": "<your_message>", "status": "<negative/positive>" }`;
-            result = await chatResponse();
-            break;
-        case "ASK_FOR_SPECIFIC_QUESTION":
-            prompt = `Analyze the following user response to determine if it indicates support for starting a chat. Reply with "true" if the response suggests the user is willing to start a chat, and "false" otherwise. Here is the user’s response: ${userResponse}.`;
-            result = await chatResponse();
-            console.log(result);
-            break;
-
-    } res.status(200).json(result);
+    } catch (error) {
+        res.status(400).json(error);
+    }
 };
 
-const chatResponse = async () => {
+const chatResponse = async (prompt) => {
     try {
 
         // open ai secret key [env] declaration
