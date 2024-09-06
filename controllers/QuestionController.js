@@ -1,14 +1,10 @@
 import OpenAI from "openai";
+import User from "../models/user.js";
 
 export const responseToUser = async (req, res, next)  => {
     try {
         const userResponse = req.body?.userResponse; // Capture the user’s response
         const status = req.body?.status; // Capture the user’s response
-    
-        console.log(userResponse);
-        console.log(status);
-        console.log(req.body);
-    
         let prompt; let result;
     
         switch (status) {
@@ -19,7 +15,7 @@ export const responseToUser = async (req, res, next)  => {
             case "ASK_FOR_SPECIFIC_QUESTION":
                 prompt = `Analyze the following user response to determine if it indicates support for starting a chat. Reply with "true" if the response suggests the user is willing to start a chat, and "false" otherwise. Here is the user’s response: ${userResponse}.`;
                 const state = await chatResponse(prompt);
-                if (state) {
+                if (state.toLowerCase() === 'true') {
                     result = {
                         "message": await initialQuestion(),
                         "status": "CONTINUE_CHAT"
@@ -32,7 +28,7 @@ export const responseToUser = async (req, res, next)  => {
                 }
                 break;
             case "CONTINUE_CHAT":
-                
+                result = await questionAnswer(userResponse)
                 break;
     
         } res.status(200).json(result);
@@ -65,6 +61,8 @@ const chatResponse = async (prompt) => {
 };
 
 const initialQuestion = async () => {
+
+    // TODO: SETUP SAMPLE QUESTION LIST ACCORDING TO THE FOLLOWING FORMAT ////////////////////////////
     const questions = [
         "Can you tell me more about your painting hobbies?",
         "What kind of landscapes and portraits did you enjoy creating?",
@@ -82,6 +80,40 @@ const initialQuestion = async () => {
     return questions[randomIndex];
 }
 
+
+const questionAnswer = async(userResponse) => {
+    try {
+
+        const patient_id = "66a5a24db1507dbec0f15541";
+        const date = new Date().toISOString().split('T')[0];
+        
+        await User.findByIdAndUpdate(
+            patient_id,
+            {
+                $push: {
+                    [`user_responses.${date}`]: {
+                        answer: userResponse.answer, // User answer
+                        question: userResponse.question, // Current question
+                        timestamp: new Date() // Current date and time
+                    }
+                }
+            },
+            { new: true } // Return the updated document
+        );
+
+        const prompt = `Given the user's response: '${userResponse.answer}', generate a friendly follow-up question that encourages further engagement and is relevant to the user's answer. 
+        The follow-up question should be conversational, open-ended, and should invite the user to share more details or thoughts.
+        If the response is vague or indicates no specific topic or requests to change the topic, instead, use the following topic to start the conversation:'${userResponse.question}'
+        The generated prompt should smoothly transition into the selected topic or delve deeper into the user's initial response.`;
+
+        return await chatResponse(prompt);
+        
+    } catch (error) {
+        res.status(400).json(error);
+    }
+}
+
+// ! WILL BE REMOVED !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 export const getQuestions = (req, res, next) => {
 
     const questions = [

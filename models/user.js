@@ -11,6 +11,10 @@ const UserSchema = new mongoose.Schema({
     stories: {
       type: {},
       default: {}
+    },
+    user_responses: {
+      type: {}, // Correctly define it as an array of objects
+      default: {}
     }
     
 }, {timestamps: true});
