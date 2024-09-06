@@ -1,5 +1,6 @@
 import OpenAI from "openai";
 import User from "../models/user.js";
+import { json } from "express";
 
 export const responseToUser = async (req, res, next)  => {
     try {
@@ -101,12 +102,19 @@ const questionAnswer = async(userResponse) => {
             { new: true } // Return the updated document
         );
 
-        const prompt = `Given the user's response: '${userResponse.answer}', generate a friendly follow-up question that encourages further engagement and is relevant to the user's answer. 
-        The follow-up question should be conversational, open-ended, and should invite the user to share more details or thoughts.
-        If the response is vague or indicates no specific topic or requests to change the topic, instead, use the following topic to start the conversation:'${userResponse.question}'
-        The generated prompt should smoothly transition into the selected topic or delve deeper into the user's initial response.`;
-
-        return await chatResponse(prompt);
+        const prompt = `Given the user's response: '${userResponse.answer}' for the question: '${userResponse.question}', generate a friendly follow-up question or response. 
+        - If the user’s response indicates a desire to continue the current topic, generate a conversational, open-ended question related to their answer.
+        - If the response is vague, off-topic, or indicates a desire to change the topic, suggest a new question or topic to discuss.
+        - If the response indicates that the user wants to end the conversation, acknowledge their request and let them know they can return later.
+        
+        Provide the response in the following JSON format:
+        
+        {
+          "reply_message": "<generated_followup_question_or_response>",
+          "status": "<one_of: continue_topic | change_topic | stop_chatting>"
+        }`;
+        
+        return JSON.parse(await chatResponse(prompt));
         
     } catch (error) {
         res.status(400).json(error);
