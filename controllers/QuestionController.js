@@ -1,10 +1,11 @@
 import OpenAI from "openai";
 
 export const responseToUser = async (req, res, next)  => {
-    const userInput = req.body?.userResponse; // Capture the user’s response
+    const userResponse = req.body?.userResponse; // Capture the user’s response
     const status = req.body?.status; // Capture the user’s response
 
-    console.log(userInput);
+    console.log(userResponse);
+    console.log(status);
 
     const openai = new OpenAI({
         apiKey: process.env.OPEN_AI_API,
