@@ -18,8 +18,21 @@ export const responseToUser = async (req, res, next)  => {
                 break;
             case "ASK_FOR_SPECIFIC_QUESTION":
                 prompt = `Analyze the following user response to determine if it indicates support for starting a chat. Reply with "true" if the response suggests the user is willing to start a chat, and "false" otherwise. Here is the user’s response: ${userResponse}.`;
-                result = await chatResponse(prompt);
-                console.log(result);
+                const state = await chatResponse(prompt);
+                if (state) {
+                    result = {
+                        "message": await initialQuestion(),
+                        "status": "CONTINUE_CHAT"
+                    }
+                } else {
+                    result = {
+                        "message": "That's okay! If there's anything else you'd like to talk about or if you change your mind, I'm here to chat.",
+                        "status": "END"
+                    }
+                }
+                break;
+            case "CONTINUE_CHAT":
+                
                 break;
     
         } res.status(200).json(result);
@@ -51,6 +64,23 @@ const chatResponse = async (prompt) => {
     } catch (error) { console.log('Error retrieving responses:', error); }
 };
 
+const initialQuestion = async () => {
+    const questions = [
+        "Can you tell me more about your painting hobbies?",
+        "What kind of landscapes and portraits did you enjoy creating?",
+        "How often did you practice playing the piano?",
+        "What inspired you to start painting and playing the piano?",
+        "Can you describe a memorable painting or piano piece you worked on?",
+        "Did you have any favorite subjects or themes when painting?",
+        "How did your daily piano practice influence your skills?",
+        "Were there any particular challenges you faced while painting or playing the piano?",
+        "What did you enjoy most about painting and playing the piano?",
+        "Did you share your artwork or piano performances with others?"
+    ];
+
+    const randomIndex = Math.floor(Math.random() * questions.length);
+    return questions[randomIndex];
+}
 
 export const getQuestions = (req, res, next) => {
 
