@@ -9,23 +9,18 @@ export const responseToUser = async (req, res, next)  => {
         apiKey: process.env.OPEN_AI_API,
     });
 
-    const prompt = userInput
+    const status = userInput;
+    let prompt;
 
-    // const prompt = 
-    // [
-    //     {
-    //         "role": "system",
-    //         "content": "You are an assistant that provides sentiment analysis. For each input, respond with a JSON object that includes 'message' and 'sentiment'. The message should be friendly and tailored to the sentiment: if the sentiment is positive, just acknowledge it; if the sentiment is negative, acknowledge it and invite the user to chat further."
-    //     },
-    //     {
-    //         "role": "user",
-    //         "content": `Analyze the sentiment of the following text: ${userInput}. Provide a JSON response with a friendly message and sentiment status. If the sentiment is negative, include an invitation to chat further; if positive, invite user to have chat regarding past memories.`
-    //     }
-    // ]
+    switch (status) {
+        case "END_GREET_USER":
+            prompt = `Analyze the sentiment of the following text from the user and respond with a friendly message in a JSON object. If the sentiment is negative, provide a sympathetic message and suggest chatting about past life stories. If the sentiment is positive, respond cheerfully and invite the user to discuss their memories. Here is the user’s response: ${userResponse}. Provide your response in the following JSON format:\n\n{ "message": "<your_message>", "status": "<negative/positive>" }`
+        break;
+    }
 
     const followupQuestion = await openai.chat.completions.create({
         model: "gpt-3.5-turbo",
-        messages: prompt,
+        messages: [{role: 'user', content: prompt}],
         temperature: 0.7,
         max_tokens: 50,
     });
@@ -118,3 +113,5 @@ export const catchAnswers = async (req, res, next) => {
         console.log(error);
     }
 }
+
+// code here
