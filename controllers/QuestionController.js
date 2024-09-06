@@ -13,8 +13,7 @@ export const responseToUser = async (req, res, next)  => {
                 result = await chatResponse(prompt);
                 break;
             case "ASK_FOR_SPECIFIC_QUESTION":
-                console.log(userResponse);
-                prompt = `Analyze the following user response to determine if it indicates support for starting a chat. Reply with "true" if the response suggests the user is willing to start a chat, and "false" otherwise. Here is the user’s response: ${userResponse}.`;
+                prompt = `Analyze the following user response to determine if it indicates support for starting a chat. Reply with "true" if the response suggests the user is willing to start a chat, and "false" otherwise. Here is the user’s response: ${"I " + userResponse}.`;
                 const state = await chatResponse(prompt);
                 if (state.toLowerCase() === 'true') {
                     result = {
