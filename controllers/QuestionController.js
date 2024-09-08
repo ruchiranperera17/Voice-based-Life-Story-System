@@ -81,7 +81,6 @@ const initialQuestion = async () => {
     return questions[randomIndex];
 }
 
-
 const questionAnswer = async(userResponse) => {
     try {
 
@@ -150,6 +149,7 @@ export const getQuestions = (req, res, next) => {
     }
 }
 
+// ! WILL BE REMOVED !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 export const catchAnswers = async (req, res, next) => {
 
     try {
