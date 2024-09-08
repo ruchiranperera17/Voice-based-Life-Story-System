@@ -1,7 +1,20 @@
+import mongoose from 'mongoose';
+import Question from '../models/question.js'; 
+import dotenv from 'dotenv';
 import OpenAI from "openai";
 import User from "../models/user.js";
-import { json } from "express";
 
+dotenv.config();
+
+// MongoDB Connection
+mongoose.connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
+.then(() => console.log('Connected to MongoDB'))
+.catch((error) => console.log('Error connecting to MongoDB:', error));
+
+// ! KANISHKA
 export const responseToUser = async (req, res, next)  => {
     try {
         const userResponse = req.body?.userResponse; // Capture the user’s response
@@ -199,5 +212,93 @@ export const catchAnswers = async (req, res, next) => {
         console.log(error);
     }
 }
+// ! KANISHKA
 
-// code here
+// CREATE a new question
+export const createQuestion = async (req, res) => {
+    try {
+        const { text, type, categoryQnsId } = req.body;
+
+        const newQuestion = new Question({
+            text,
+            type,
+            categoryQnsId,
+            lastUpdated: new Date().toISOString(),
+        });
+
+        const savedQuestion = await newQuestion.save();
+        res.status(201).json(savedQuestion);
+    } catch (error) {
+        console.error('Error creating question:', error);
+        res.status(500).json({ error: 'Failed to create question' });
+    }
+};
+
+// READ all questions
+export const getAllQuestions = async (req, res) => {
+    try {
+        const questions = await Question.find({});
+        res.status(200).json(questions);
+    } catch (error) {
+        console.error('Error retrieving questions:', error);
+        res.status(500).json({ error: 'Failed to retrieve questions' });
+    }
+};
+
+// READ a single question by ID
+export const getQuestionById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const question = await Question.findById(id);
+
+        if (!question) {
+            return res.status(404).json({ error: 'Question not found' });
+        }
+
+        res.status(200).json(question);
+    } catch (error) {
+        console.error('Error retrieving question:', error);
+        res.status(500).json({ error: 'Failed to retrieve question' });
+    }
+};
+
+// UPDATE a question by ID
+export const updateQuestionById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { text, type, categoryQnsId } = req.body;
+
+        const updatedQuestion = await Question.findByIdAndUpdate(
+            id,
+            { text, type, categoryQnsId, lastUpdated: new Date().toISOString() },
+            { new: true }
+        );
+
+        if (!updatedQuestion) {
+            return res.status(404).json({ error: 'Question not found' });
+        }
+
+        res.status(200).json(updatedQuestion);
+    } catch (error) {
+        console.error('Error updating question:', error);
+        res.status(500).json({ error: 'Failed to update question' });
+    }
+};
+
+// DELETE a question by ID
+export const deleteQuestionById = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const deletedQuestion = await Question.findByIdAndDelete(id);
+
+        if (!deletedQuestion) {
+            return res.status(404).json({ error: 'Question not found' });
+        }
+
+        res.status(200).json({ message: 'Question deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting question:', error);
+        res.status(500).json({ error: 'Failed to delete question' });
+    }
+};
