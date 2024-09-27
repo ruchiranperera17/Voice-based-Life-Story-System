@@ -5,7 +5,6 @@ import User from "../models/user.js";
 // ! KANISHKA
 export const responseToUser = async (req, res, next)  => {
 
-    res.status(200).json("Work");
     try {
         const userResponse = req.body?.userResponse; // Capture the user’s response
         const status = req.body?.status; // Capture the user’s response
