@@ -6,14 +6,6 @@ import User from "../models/user.js";
 
 dotenv.config();
 
-// MongoDB Connection
-mongoose.connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-})
-.then(() => console.log('Connected to MongoDB'))
-.catch((error) => console.log('Error connecting to MongoDB:', error));
-
 // ! KANISHKA
 export const responseToUser = async (req, res, next)  => {
     try {
