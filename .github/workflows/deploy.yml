@@ -14,15 +14,14 @@ jobs:
 
       - name: Install Backend Dependencies
         run: |
-          cd backend
-          npm install
+          npm install  # Since backend is in root, no need to cd
 
       - name: Build and Install Frontend
         run: |
           cd client
           npm install
           npm run build
-          
+
       - name: Deploy Frontend
         run: |
           sudo rm -rf /var/www/html/*
@@ -30,6 +29,5 @@ jobs:
 
       - name: Deploy Backend with PM2
         run: |
-          cd backend
-          pm2 stop all || true
+          pm2 stop all || true  # Manage backend app from root
           pm2 start index.js --name backend-app
