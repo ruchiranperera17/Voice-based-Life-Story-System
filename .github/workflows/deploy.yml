@@ -16,6 +16,9 @@ jobs:
       - name: Install Backend Dependencies
         run: |
           npm install  # Backend in root, no need to cd
+        env: 
+          DATABASE: DATABASE
+          OPEN_AI_API: OPEN_AI_API
 
       # 2. Deploy Pre-Built Frontend
       - name: Deploy Pre-Built Frontend
