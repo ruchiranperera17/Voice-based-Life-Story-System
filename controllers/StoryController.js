@@ -2,6 +2,7 @@ import Response from "../models/responses.js";
 import OpenAI from "openai";
 import dotenv from "dotenv";
 import User from "../models/user.js";
+import { build_narrative } from '../prompt.js';
 
 dotenv.config();
    
@@ -60,8 +61,9 @@ export const buildStorySummary = async (req, res, next) => {
     }     
 }
 
-const saveSummary = async (user_id, response_id, summary_report, tags) => {
 
+const saveSummary = async (user_id, response_id, summary_report, tags) => {
+    
     try {
         const saveSummary = await User.findByIdAndUpdate(user_id, {
             $push: { 
@@ -71,10 +73,10 @@ const saveSummary = async (user_id, response_id, summary_report, tags) => {
                     tags: tags
                 }
             }
-         }, {new: true});
+        }, {new: true});
          return saveSummary;
 
-    } catch (error) {
+        } catch (error) {
         console.log('Error retrieving responses:', error);
     }
 }
@@ -97,7 +99,7 @@ export const buildStoryNarratives = async (req, res, next) => {
     try {
 
         const categories = ["Childhood", "School", "Career", "Family", "Hobbies", "Travel", "Milestones", "Traditions", "Holidays", "Friends"];
-
+        
         const prompt = `Please build the story based on the following details from ${patient_name} only and find or create categories using the list ${JSON.stringify(categories)}.
         Do not add any information from external sources. Respond back with a JSON format that includes an stories array with category name and narrative story:\n\n${JSON.stringify(user_response?.user_responses)}`;
         const narratives = await openai.chat.completions.create({
@@ -105,10 +107,10 @@ export const buildStoryNarratives = async (req, res, next) => {
             messages: [{ role: "user", content: prompt }],
             temperature: 0.7,
             top_p: 1,
-            });
+        });
         
         const storyResponse = JSON.parse(narratives.choices[0].message.content);
-
+        
         saveStoryNarratives(patient_id, response_id, storyResponse)
         res.status(200).json(storyResponse);
 
@@ -124,7 +126,7 @@ const saveStoryNarratives = async (patient_id, response_id, story) => {
     //let saveStoryNarratives;
     try {
         for (const { category, narrative } of narrative_stories.stories) {
-
+            
             // Update existing category if found
             let updatedUser = await User.findOneAndUpdate(
                 { _id: patient_id, "stories.category": category },
@@ -163,17 +165,17 @@ const saveStoryNarratives = async (patient_id, response_id, story) => {
 
 const buildStoryByCategory = async (patient_id, category) => {
 
-
+    
     const user = await User.findOne({ _id: patient_id, "stories.category": category });
-
-            if (!user) {
+    
+    if (!user) {
                 console.log('User not found');
                 return;
             }
         
             // Extract history texts from the selected category
             const historyTexts = [];
-        
+            
             user.stories.forEach(story => {
                 if (story.category === category) {
                     story.history.forEach(entry => {
@@ -186,12 +188,12 @@ const buildStoryByCategory = async (patient_id, category) => {
         
             // Output all history texts for the selected category
             console.log(historyTexts);
-
-                // Setup OpenAI SDK with API Key
+            
+            // Setup OpenAI SDK with API Key
             const openai = new OpenAI({
                 apiKey: process.env.OPEN_AI_API,
             });
-
+            
             const prompt = `Please build the storyline of the user by using provided array only.
             Do not add any information from external sources. Respond back only the story:\n\n${JSON.stringify(historyTexts)}`;
             const narratives = await openai.chat.completions.create({
@@ -199,7 +201,7 @@ const buildStoryByCategory = async (patient_id, category) => {
                 messages: [{ role: "user", content: prompt }],
                 temperature: 0.7,
                 top_p: 1,
-                });
+            });
             
             //const storyResponse = JSON.parse(narratives.choices[0].message.content);
             console.log(narratives.choices[0].message.content);
@@ -213,56 +215,202 @@ const buildStoryByCategory = async (patient_id, category) => {
                 { new: true }
             );
             console.log(updatednew);
+        }
+
+export const processResponses = async (req, res, next) => {
+
+    try {
+
+        const user_id = req.params['id']
+        const user = await User.findById(req.params['id']);
+  
+        if (!user) {
+            console.log('User not found');
+            return;
+        }
+
+        let newResponses = await retireveUserResponses(user.user_responses);
+
+
+        let response1 = await buildCompletedStoryLine(user_id, user, newResponses); 
+        let response2 = await buildSummaries()
+
+        if (response1['success'] && response2['success']) {
+
+            const result_update = await updateUserResponsesStatus(user_id)
+            res.status(200).json(result_update);
+
+        }
+        
+        
+    } catch (error) {
+        
+    }
+}
+// Story Narrative
+const buildCompletedStoryLine = async(user_id, user, newResponses) => {
+
+    let currentStory = user?.full_story? user.full_story : '';
+ 
+    const openai = new OpenAI({
+        apiKey: process.env.OPEN_AI_API,
+    });
+    const prompt = build_narrative(currentStory, newResponses);
+    const narratives = await openai.chat.completions.create({
+        model: "gpt-3.5-turbo",
+        messages: [{ role: "user", content: prompt }],
+        temperature: 0.7,
+        top_p: 1,
+    }); 
+
+    const new_storyline = JSON.parse(narratives.choices[0].message.content)
+    const result = await saveStory(user_id, new_storyline);
+    if (result) {
+        console.log('Operation successful:');
+        return { success: true, data: result };
+    } else {
+        console.log('No document found to update.');
+        return { success: false, message: 'No document found to update.' };
+    }
 }
 
-export const buildCompletedStoryLine = async(req, res, next) => {
+const retireveUserResponses = async (User) => {
+    try {
+        const userResponses = User; // Extract the user_responses Map
 
+        // Initialize an array to hold all user answers with "READY_TO_PROCESS" status
+        let readyToProcessUserAnswers = [];
 
-    const user = await User.findOne(req.params._id);
-
-            if (!user) {
-                console.log('User not found');
-                return;
+        // Loop through each date key in user_responses
+        userResponses.forEach((responses, dateKey) => {
+            // Check if responses is an array
+            if (Array.isArray(responses)) {
+                // Filter the responses with status "READY_TO_PROCESS" and extract the answers
+                const filteredResponses = responses
+                    .filter(record => record.status === "READY_TO_PROCESS")
+                    .map(record => record.answer); // Only keep the answer
+                
+                // Concatenate the filtered answers to the result array
+                readyToProcessUserAnswers = readyToProcessUserAnswers.concat(filteredResponses);
+            } else {
+                console.warn(`Expected responses to be an array for date ${dateKey}, but got ${typeof responses}`);
             }
+        });
+
+        // Return the final array of answers
+        return readyToProcessUserAnswers; // This will be in the format ["Answer1", "Answer2"]
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+const saveStory = async (user_id, new_story) => {
+    try {
+        // Find the user by ID and update their full_story or create it if it doesn't exist
+        const updatedStory = await User.findOneAndUpdate(
+            { _id: user_id }, // Search criteria
+            { 
+                $set: { story: new_story.narrative },  // Set full_story
+            },
+            { new: true } // Return the new document and create if not exists
+        );
+        return updatedStory;
         
-            //res.status(200).json(user);
-            // Extract history texts from the selected category
-            const historyTexts = [];
+    } catch (error) {
+        console.error('Error saving story:', error);
+    }
+}
+
+const updateUserResponsesStatus = async (user_id) => {
+    try {
+        // Find the user by ID
+        const user = await User.findById(user_id);
+
+        if (!user) {
+            throw new Error('User not found');
+        }
+
+        let updated = false;
         
-            user.stories.forEach(story => {
-                if(story.full_story !== null) {
-                    historyTexts.push(story.full_story);
+        // Iterate over the user_responses Map
+        user.user_responses.forEach((responses) => {
+            // responses is an array, so we can iterate over it
+            responses.forEach(record => {
+                if (record.status === "READY_TO_PROCESS") {
+                    record.status = "PROCEED"; // Change status to "PROCEED"
+                    updated = true; // Mark that an update has been made
                 }
             });
+        });
         
-            // Output all history texts for the selected category
-           
+        // Only save if an update was made
+        if (updated) {
+            await user.save();
+            return { message: 'Status updated successfully', user };
+        } else {
+            return { message: 'No ststus to update' }; // Indicate no updates were necessary
+        }
 
-                // Setup OpenAI SDK with API Key
-            const openai = new OpenAI({
-                apiKey: process.env.OPEN_AI_API,
+    } catch (error) {
+        console.error('Error updating statuses:', error);
+        throw error; // Re-throw the error after logging
+    }
+};
+
+const buildSummaries = async (user_id, user, newResponses) => {
+
+    // Setup OpenAI SDK with API Key
+    const openai = new OpenAI({
+        apiKey: process.env.OPEN_AI_API,
+    });
+
+    try {
+
+        const categories = ["Childhood", "School", "Career", "Family", "Hobbies", "Travel", "Milestones", "Traditions", "Holidays", "Friends"];
+
+         const prompt = `
+        You are tasked with generating summaries for various categories based on the user's new responses and any previously saved summaries. Your summaries must accurately reflect the content provided without adding or altering any details. 
+        
+        Inputs:
+        - Saved summaries (if any): ${savedSummaries}
+        - User's new responses: ${newResponses}
+        
+        Guidelines:
+        1. If ${savedSummaries} exists, integrate the new responses into the existing summaries. Ensure that every part of the summary comes directly from the user's input without external influence.
+        2. If ${savedSummaries} is empty, create new summaries solely from the ${newResponses}. Ensure that all content is derived from the user's responses.
+        3. Focus on capturing key insights, themes, or points from the responses and summarizing them clearly and concisely.
+        4. Avoid incorporating irrelevant or inappropriate content from the user's responses. 
+        
+        Output:
+        - Provide the generated summaries in the following format:
+        
+        {
+          "summaries": {
+            "category1": "<summary_for_category1>",
+            "category2": "<summary_for_category2>",
+            ...
+          }
+        }
+        `;
+        
+
+        const summary = await openai.chat.completions.create({
+            model: "gpt-3.5-turbo",
+            messages: [{ role: "user", content: prompt }],
+            temperature: 0.7,
+            top_p: 1,
             });
+        
+        const summaryResponse = JSON.parse(summary.choices[0].message.content);
+        const summarizedStory = summaryResponse.summarized_story;
+        const tagArray = summaryResponse.tag_array;
 
-            const prompt = `Please build the complete story of ${req.body.name} by using provided details in array only.
-            Do not add any information from external sources. Respond back only the single completed story:\n\n${JSON.stringify(historyTexts)}`;
-            const narratives = await openai.chat.completions.create({
-                model: "gpt-3.5-turbo",
-                messages: [{ role: "user", content: prompt }],
-                temperature: 0.7,
-                top_p: 1,
-                });
-            
-            //const storyResponse = JSON.parse(narratives.choices[0].message.content);
-            console.log(narratives.choices[0].message.content);
-            res.status(200).json(narratives.choices[0].message.content);/*
-            const newRes = narratives.choices[0].message.content;
+        // Save the story summary in the database
+        const savedSummary = saveSummary(patient_id, response_id, summarizedStory, tagArray);
+        res.status(200).json(savedSummary);
 
-            let updatednew = await User.findOneAndUpdate(
-                { _id: patient_id, "stories.category": category },
-                {
-                    $set: { 'stories.$.full_story': newRes}
-                },
-                { new: true }
-            );
-            console.log(updatednew);*/
+    } catch (error) {
+        console.log('Error retrieving responses:', error);
+    }     
 }
