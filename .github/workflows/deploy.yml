@@ -12,21 +12,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      # 1. Install Backend Dependencies
       - name: Install Backend Dependencies
         run: |
-          npm install  # Since backend is in root, no need to cd
+          npm install  # Backend in root, no need to cd
 
-      - name: Build and Install Frontend
-        run: |
-          cd client
-          npm install
-          npm run build
-
-      - name: Deploy Frontend
+      # 2. Deploy Pre-Built Frontend
+      - name: Deploy Pre-Built Frontend
         run: |
           sudo rm -rf /var/www/html/*
           sudo cp -r client/build/* /var/www/html/
 
+      # 3. Deploy Backend with PM2
       - name: Deploy Backend with PM2
         run: |
           pm2 stop all || true  # Manage backend app from root
