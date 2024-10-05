@@ -1,0 +1,35 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - production
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Backend Dependencies
+        run: |
+          cd backend
+          npm install
+
+      - name: Build and Install Frontend
+        run: |
+          cd client
+          npm install
+          npm run build
+          
+      - name: Deploy Frontend
+        run: |
+          sudo rm -rf /var/www/html/*
+          sudo cp -r client/build/* /var/www/html/
+
+      - name: Deploy Backend with PM2
+        run: |
+          cd backend
+          pm2 stop all || true
+          pm2 start index.js --name backend-app
