@@ -27,4 +27,5 @@ jobs:
       - name: Deploy Backend with PM2
         run: |
           pm2 stop all || true  # Manage backend app from root
-          pm2 start index.js --name backend-app
+          pm2 start index.js --name api
+          pm2 restart api
