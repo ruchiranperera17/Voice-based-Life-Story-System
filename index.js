@@ -1,5 +1,5 @@
 import express from 'express';
-import story from './routes/story.js';
+import api from './routes/api.js';
 import Connection from './database.js';
 
 const app = express();
@@ -7,7 +7,7 @@ const app = express();
 // Middleware to parse JSON request bodies
 app.use(express.json());
 
-app.use("/api/story", story);
+app.use("/api", api);
 
 // ERROR HANDLING MIDDLEWARE
 app.use((err, req, res, next) => {
