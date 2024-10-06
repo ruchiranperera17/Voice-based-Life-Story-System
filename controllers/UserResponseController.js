@@ -81,7 +81,7 @@ const questionAnswer = async(userResponse) => {
             {
                 $push: {
                     [`user_responses.${date}`]: {
-                        answer: userResponse.answer, // User answer
+                        answer: result.user_response, // User answer
                         question: userResponse.question, // Current question
                         tags: result.tags,
                         status: "READY_TO_PROCESS",
