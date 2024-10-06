@@ -1,5 +1,5 @@
 import express from "express";
-import getResponses from "../controllers/UserResponses.js";
+import getResponses from "../controllers/UserResponsesController.js";
 
 const router = express.Router();
 router.route("/responses").get(getResponses);
