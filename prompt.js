@@ -15,6 +15,7 @@ export const chat_responses = (Question, Answer, Categories) => {
     return `
         Given the user's response: '${Answer}' for the question: '${Question}', generate a friendly response with a follow-up question. 
         Analyze the entire answer and check for cues indicating whether the user wants to end the conversation. If the user expresses tiredness or requests to talk later (e.g., "Can we talk later?", "I'm tired", "Goodbye"), acknowledge their request and let them know they can return later.
+        Given the sentence: ${Answer}, complete the sentence naturally by adding any missing words such as I, I'm, yes etc.. so it forms a full, coherent sentence. 
         Additionally, categorize the user's answers using ${Categories}.
 
         Provide the response in the following JSON format:
@@ -22,7 +23,8 @@ export const chat_responses = (Question, Answer, Categories) => {
         {
             "reply_message": "<generated_followup_question_or_response>",
             "status": "<one_of: continue_topic | stop_chatting>",
-            "tags": "<category list>"
+            "tags": "<category list>",
+            "user_response": <completed_sentence>
         }
     `
 }
