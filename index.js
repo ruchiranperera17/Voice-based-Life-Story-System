@@ -1,6 +1,6 @@
-import express from 'express';
-import api from './routes/api.js';
-import Connection from './database.js';
+import express from "express";
+import api from "./routes/api.js";
+import Connection from "./database.js";
 
 const app = express();
 
@@ -11,16 +11,16 @@ app.use("/api", api);
 
 // ERROR HANDLING MIDDLEWARE
 app.use((err, req, res, next) => {
-    const status = err.status || 500;
-    const message = err.message || "Something went wrong!";
-    return res.status(status).json({
-        success: false,
-        status,
-        message,
-    })
+  const status = err.status || 500;
+  const message = err.message || "Something went wrong!";
+  return res.status(status).json({
+    success: false,
+    status,
+    message,
+  });
 });
 
 app.listen(8080, () => {
-    console.log("Application is running...");
-    Connection();
+  console.log("Application is running...");
+  Connection();
 });
