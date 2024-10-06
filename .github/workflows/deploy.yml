@@ -12,6 +12,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      # 0. Clean install and .ENV file setup
+      - run: npm ci
+      - run: |
+          touch .env
+          echo "DATABASE=${{ secrets.DATABASE }}" >> .env
+          echo "OPEN_AI_API=${{ secrets.OPEN_AI_API }}" >> .env
+
       # 1. Install Backend Dependencies
       - name: Install Backend Dependencies
         run: |
