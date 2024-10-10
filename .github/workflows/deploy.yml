@@ -18,6 +18,8 @@ jobs:
           touch .env
           echo "DATABASE=${{ secrets.DATABASE }}" >> .env
           echo "OPEN_AI_API=${{ secrets.OPEN_AI_API }}" >> .env
+          echo "MODEL=${{ secrets.MODEL }}" >> .env
+
 
       # 1. Install Backend Dependencies
       - name: Install Backend Dependencies
