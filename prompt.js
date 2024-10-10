@@ -6,7 +6,8 @@ export const initial_question = (userResponse, init_question) => {
         - If the sentiment is negative, craft a comforting message.
         - If the sentiment is positive, craft a cheerful message.
         4. Welcoming Phrase: Create a welcoming phrase that smoothly transitions from the sentiment-based response to the specific question, ensuring it connects with the question contextually (e.g., “Let’s talk about your school” if the question is about school memories).
-        5. Output Format: Provide the response in JSON format with only the response message without the given question. Do not include ${init_question}.
+        5. Make sure to use plain and natural english language.
+        6. Output Format: Provide the response in JSON format with only the response message without the given question.
     `
     return prompt;
 };
@@ -17,6 +18,7 @@ export const chat_responses = (Question, Answer, Categories) => {
         Analyze the entire answer and check for cues indicating whether the user wants to end the conversation. If the user expresses tiredness or requests to talk later (e.g., "Can we talk later?", "I'm tired", "Goodbye"), acknowledge their request and let them know they can return later.
         Given the sentence: ${Answer}, complete the sentence naturally by adding any missing words such as I, I'm, yes etc.. so it forms a full, coherent sentence. 
         Ensure that the response directly addresses any specific questions asked by the user (e.g., "Do you think cycling is a good habit?") by providing a thoughtful answer to the question.
+        Make sure to use plain and natural english language.
         Additionally, categorize the user's answers using ${Categories}.
 
         Provide the response in the following JSON format:

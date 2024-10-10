@@ -32,7 +32,7 @@ export const responseToUser = async (req, res)  => {
         switch (status) {
             case "END_GREET_USER":
                 let question = await initialQuestion();
-                result = `${JSON.parse(await chatResponse(initial_question(userResponse, question))).response} ${question}`;
+                result = `${JSON.parse(await chatResponse(initial_question(userResponse, question))).response}`;
                 break;
             case "CONTINUE_CHAT":
                 result = await questionAnswer(userResponse)
