@@ -75,7 +75,7 @@ const buildCompletedStoryLine = async(user_id, user, newResponses) => {
     });
     const prompt = build_narrative(currentStory, newResponses);
     const narratives = await openai.chat.completions.create({
-        model: process.env.model,
+        model: process.env.MODEL,
         messages: [{ role: "user", content: prompt }],
         temperature: 0.7,
         top_p: 1,
@@ -198,7 +198,7 @@ const buildSummaries = async (user_id, newResponses, categories) => {
     try {
 
         const summary = await openai.chat.completions.create({
-            model: process.env.model,
+            model: process.env.MODEL,
             messages: [{ role: "user", content: build_summary(categories, newResponses) }],
             temperature: 0.7,
             top_p: 1,
