@@ -16,6 +16,7 @@ export const chat_responses = (Question, Answer, Categories) => {
         Given the user's response: '${Answer}' for the question: '${Question}', generate a friendly response with a follow-up question. 
         Analyze the entire answer and check for cues indicating whether the user wants to end the conversation. If the user expresses tiredness or requests to talk later (e.g., "Can we talk later?", "I'm tired", "Goodbye"), acknowledge their request and let them know they can return later.
         Given the sentence: ${Answer}, complete the sentence naturally by adding any missing words such as I, I'm, yes etc.. so it forms a full, coherent sentence. 
+        Ensure that the response directly addresses any specific questions asked by the user (e.g., "Do you think cycling is a good habit?") by providing a thoughtful answer to the question.
         Additionally, categorize the user's answers using ${Categories}.
 
         Provide the response in the following JSON format:
@@ -48,6 +49,35 @@ export const build_narrative = (currentStory, newResponses) => {
         
         {
         "narrative": "<generated_narrative>"
+        }
+    `
+}
+
+export const build_summary = (categories, newResponses) => {
+    
+    return `
+        You are tasked with generating summaries for various categories based on the user's new responses. 
+        Your summaries must accurately reflect the content provided without adding or altering any details. 
+        
+        Inputs:
+        - User's name: Ken
+        - User's new responses: ${newResponses}
+        - Categories: ${categories}
+        
+        Guidelines:
+        1. Create new summaries solely from the ${newResponses}. Ensure that all content is derived from the user's responses.
+        3. Focus on capturing key insights, themes, or points from the responses and summarizing them clearly and concisely.
+        4. Avoid incorporating irrelevant or inappropriate content from the user's responses. 
+        
+        Output:
+        - Provide the generated summaries in the following format:
+        
+        {
+          "summaries": {
+            "category1": "<summary_for_category1>",
+            "category2": "<summary_for_category2>",
+            ...
+          }
         }
     `
 }
