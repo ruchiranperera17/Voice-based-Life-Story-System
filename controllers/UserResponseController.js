@@ -71,7 +71,7 @@ const chatResponse = async (prompt) => {
 
         // generate the response based on the prompt and user inputs
         const response =  await open_ai.chat.completions.create({
-            model: process.env.model,
+            model: process.env.MODEL,
             messages: [{role: 'user', content: prompt}],
             temperature: 0.7,
             max_tokens: 500,
