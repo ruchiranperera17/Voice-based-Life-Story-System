@@ -74,7 +74,7 @@ const chatResponse = async (prompt) => {
             model: process.env.MODEL,
             messages: [{role: 'user', content: prompt}],
             temperature: 0.7,
-            max_tokens: 500,
+            max_tokens: 150,
         });
 
         // return only message
