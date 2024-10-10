@@ -8,13 +8,19 @@ const UserResponseSchema = new mongoose.Schema({
   timestamp: { type: Date, default: Date.now }
 }, { _id: false }); // Disable automatic creation of _id for sub-documents
 
+const SummarySchema = new mongoose.Schema({
+  summary: { type: String },
+  timestamp: { type: Date, default: Date.now }
+}, { _id: false });
+
 const UserSchema = new mongoose.Schema({
     user_name: {
         type: String,
     },
     summaries: {
-      type: [{}],
-      default: [{}]
+      type: Map,
+      pf: [SummarySchema],
+      default: {}
     },
     stories: {
       type: {},
