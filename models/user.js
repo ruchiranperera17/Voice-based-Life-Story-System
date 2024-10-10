@@ -1,12 +1,15 @@
 import mongoose from "mongoose";
 
-const UserResponseSchema = new mongoose.Schema({
-  answer: { type: String },
-  question: { type: String },
-  tags: { type: [String] }, // Use an array of strings for tags
-  status: { type: String },
-  timestamp: { type: Date, default: Date.now }
-}, { _id: false }); // Disable automatic creation of _id for sub-documents
+const UserResponseSchema = new mongoose.Schema(
+  {
+    answer: { type: String },
+    question: { type: String },
+    tags: { type: [String] }, // Use an array of strings for tags
+    status: { type: String },
+    timestamp: { type: Date, default: Date.now },
+  },
+  { _id: false }
+); // Disable automatic creation of _id for sub-documents
 
 const SummarySchema = new mongoose.Schema({
   summary: { type: String },
@@ -15,7 +18,10 @@ const SummarySchema = new mongoose.Schema({
 
 const UserSchema = new mongoose.Schema({
     user_name: {
-        type: String,
+      type: String,
+    },
+    firstname: {
+      type: String,
     },
     summaries: {
       type: Map,
@@ -24,17 +30,18 @@ const UserSchema = new mongoose.Schema({
     },
     stories: {
       type: {},
-      default: {}
+      default: {},
     },
     user_responses: {
       type: Map, // Use Map to allow dynamic keys (dates)
       of: [UserResponseSchema], // Each date key maps to an array of user responses
-      default: {}
+      default: {},
     },
     story: {
-      type: String
-    }
-    
-}, {timestamps: true});
+      type: String,
+    },
+  },
+  { timestamps: true }
+);
 
-export default mongoose.model("User", UserSchema)
+export default mongoose.model("User", UserSchema);
