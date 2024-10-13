@@ -1,8 +1,12 @@
 import express from "express";
 import api from "./routes/api.js";
 import Connection from "./database.js";
+import cors from "cors";
 
 const app = express();
+
+// Enable CORS origin access
+app.use(cors());
 
 // Middleware to parse JSON request bodies
 app.use(express.json());
