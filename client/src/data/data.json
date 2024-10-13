@@ -1,0 +1,153 @@
+{
+  "_id": "66a5a24db1507dbec0f15541",
+  "updatedAt": "2024-10-10T15:35:13.108Z",
+  "user_responses": {
+    "2024-10-10": [
+      {
+        "answer": "My Dad was a scientist and I love visiting his lab. It was fascinating to see all the experiments he was conducting. My mom was a writer and I remember sneaking into her study to see her at work on her.",
+        "question": "I'm glad to hear you're doing fine! Funny stories can really brighten up the day. Let's talk about your parents' occupations and if you ever visited them at work.",
+        "tags": ["Family", "Moments and Memories"],
+        "status": "PROCEED",
+        "timestamp": "2024-10-10T15:13:04.995Z"
+      },
+      {
+        "answer": "I appreciate my parents' hard work but I always wanted to create my own path. I was more interested in technology and gaming.",
+        "question": "It sounds like you have some amazing memories with your parents! Did their occupations influence your career choice or hobbies in any way?",
+        "tags": ["Family", "Career", "Passion and Hobbies"],
+        "status": "PROCEED",
+        "timestamp": "2024-10-10T15:14:41.272Z"
+      },
+      {
+        "answer": "I can't remember back in 2005 I was really interested in developing my own video games. I experimented with simple projects, trying to create fun little game inside my favorite childhood class.",
+        "question": "It's great that you appreciate your parents' hard work! What kind of technology and gaming projects are you interested in creating?",
+        "tags": ["Passion and Hobbies"],
+        "status": "PROCEED",
+        "timestamp": "2024-10-10T15:16:30.430Z"
+      },
+      {
+        "answer": "I had to put my video games project on hold when we moved to Paris for my dad's promotion. The transition was a big change and it took some time to adjust to the new environment and explore different opportunities.",
+        "question": "That's really cool that you were interested in developing video games back in 2005! Have you continued pursuing that passion or explored any other interests since then?",
+        "tags": ["Career", "Challenges and Resilience"],
+        "status": "PROCEED",
+        "timestamp": "2024-10-10T15:18:45.202Z"
+      },
+      {
+        "answer": "I haven't had the chance to revisit my video game project however in Paris I met a new friend who shares my passion for technology and gaming. We've been talking about collaborating and on some progress together which has been really exciting.",
+        "question": "It must have been quite an adjustment moving to Paris! Have you had the chance to revisit your video games project or explore new opportunities in that field?",
+        "tags": ["Passion and Hobbies", "Relationships"],
+        "status": "PROCEED",
+        "timestamp": "2024-10-10T15:20:35.380Z"
+      },
+      {
+        "answer": "We have, we'll be brainstorming some concept for a multiplayer game that combine. It's been really fun to bounce idea off each other and see how we can bring our different skills to the table.",
+        "question": "That's great to hear about your new friend! Have you two already started discussing specific ideas for collaborating on your gaming projects?",
+        "tags": ["Passion and Hobbies"],
+        "status": "PROCEED",
+        "timestamp": "2024-10-10T15:22:00.775Z"
+      },
+      {
+        "answer": "I have chosen a fugitive team that includes robots and AI. I remember starting to study robotics, which has helped us with some game ideas.",
+        "question": "That sounds like a great start! Have you both decided on a theme or setting for your multiplayer game?",
+        "tags": ["Passion and Hobbies"],
+        "status": "PROCEED",
+        "timestamp": "2024-10-10T15:24:26.309Z"
+      },
+      {
+        "answer": "I have been brainstorming ideas for how the robots will communicate and work together. We are thinking about having them team up to solve challenges in the game.",
+        "question": "That's really interesting! Have you thought about how the robots and AI will interact with each other in your game?",
+        "tags": ["Passion and Hobbies"],
+        "status": "PROCEED",
+        "timestamp": "2024-10-10T15:25:44.318Z"
+      },
+      {
+        "answer": "imagine the robot using the unique skill to tackle different challenges for example 1 good lift heavy object while another solved puzzles is speaking of timbuk is reminds me of group projecting",
+        "question": "That sounds like a fun and challenging game concept! How do you envision the robots working together to overcome obstacles?",
+        "tags": ["Passion and Hobbies"],
+        "status": "PROCEED",
+        "timestamp": "2024-10-10T15:28:13.921Z"
+      }
+    ]
+  },
+  "firstname": "Ken",
+  "story": "Dad was a scientist and I love visiting his lab. It was fascinating to see all the experiments he was conducting. My mom was a writer and I remember sneaking into her study to see her at work on her. I appreciate my parents' hard work but I always wanted to create my own path. I was more interested in technology and gaming. I can't remember back in 2005 I was really interested in developing my own video games. I experimented with simple projects, trying to create fun little game inside my favorite childhood class. I had to put my video games project on hold when we moved to Paris for my dad's promotion. The transition was a big change and it took some time to adjust to the new environment and explore different opportunities. I haven't had the chance to revisit my video game project however in Paris I met a new friend who shares my passion for technology and gaming. We've been talking about collaborating and on some progress together which has been really exciting. We have, we'll be brainstorming some concept for a multiplayer game that combine. It's been really fun to bounce idea off each other and see how we can bring our different skills to the table. I have chosen a fugitive team that includes robots and AI. I remember starting to study robotics, which has helped us with some game ideas. I have been brainstorming ideas for how the robots will communicate and work together. We are thinking about having them team up to solve challenges in the game. Imagine the robot using the unique skill to tackle different challenges for example 1 good lift heavy object while another solved puzzles is speaking of timbuk is reminds me of group projecting.",
+  "summaries": {
+    "Childhood": [
+      {
+        "summary": "Ken's childhood was filled with exploration and curiosity as he visited his dad's lab and observed fascinating experiments. He also enjoyed sneaking into his mom's study to see her writing. Despite appreciating his parents' hard work, Ken was drawn to technology and gaming at an early age.",
+        "timestamp": "2024-10-10T15:35:12.939Z"
+      }
+    ],
+    "Teenage": [
+      {
+        "summary": "During his teenage years, Ken developed a keen interest in developing his own video games. However, this passion had to be put on hold when his family moved to Paris for his dad's promotion. Despite the challenges of adjusting to a new environment, Ken found excitement in collaborating with a new friend who shared his passion for technology and gaming.",
+        "timestamp": "2024-10-10T15:35:12.950Z"
+      }
+    ],
+    "School and Education": [
+      {
+        "summary": "Ken's interest in technology and gaming led him to experiment with creating video games in his favorite childhood class. He later delved into studying robotics, which influenced his game ideas and the creation of a team of robots and AI for his projects.",
+        "timestamp": "2024-10-10T15:35:12.961Z"
+      }
+    ],
+    "Family": [
+      {
+        "summary": "Ken's parents had contrasting professions - his dad was a scientist while his mom was a writer. Despite admiring their hard work, Ken wanted to forge his own path in technology and gaming. The family's move to Paris for his dad's promotion brought about significant changes and opportunities for Ken.",
+        "timestamp": "2024-10-10T15:35:12.970Z"
+      }
+    ],
+    "Relationships and Wedding": [
+      {
+        "summary": "Ken's newfound friendship in Paris with someone who shared his passion for technology and gaming led to exciting collaborations and progress in developing multiplayer games. Together, they brainstormed concepts and combined their skills to create innovative gaming experiences.",
+        "timestamp": "2024-10-10T15:35:12.980Z"
+      }
+    ],
+    "Career": [
+      {
+        "summary": "Ken's career interests revolve around technology, gaming, and robotics. He has been actively involved in developing video games and exploring the potential of robots and AI in gaming scenarios.",
+        "timestamp": "2024-10-10T15:35:13.001Z"
+      }
+    ],
+    "Favorites": [
+      {
+        "summary": "Ken's favorite activities seem to be related to technology, gaming, and collaborative projects. He enjoys bouncing ideas off others and combining different skills to create multiplayer games with innovative concepts.",
+        "timestamp": "2024-10-10T15:35:13.014Z"
+      }
+    ],
+    "Passion and Hobbies": [
+      {
+        "summary": "Ken's passion lies in technology, gaming, and collaborative creativity. He finds joy in brainstorming ideas, experimenting with game development, and exploring the capabilities of robotics in gaming scenarios.",
+        "timestamp": "2024-10-10T15:35:13.024Z"
+      }
+    ],
+    "Lifestyle": [
+      {
+        "summary": "Ken's lifestyle is characterized by a pursuit of his interests in technology and gaming, alongside a willingness to collaborate with like-minded individuals to create innovative projects.",
+        "timestamp": "2024-10-10T15:35:13.034Z"
+      }
+    ],
+    "Travel": [
+      {
+        "summary": "Ken's experience of moving to Paris for his dad's promotion marked a significant travel event in his life, bringing about changes and new opportunities in a different environment.",
+        "timestamp": "2024-10-10T15:35:13.063Z"
+      }
+    ],
+    "Moments and Memories": [
+      {
+        "summary": "Ken's memories include visiting his dad's lab, observing experiments, sneaking into his mom's study, and collaborating with a friend in Paris on technology and gaming projects. These moments have shaped his interests and creative pursuits.",
+        "timestamp": "2024-10-10T15:35:13.071Z"
+      }
+    ],
+    "Culture and Traditions": [
+      {
+        "summary": "Ken's experiences in different environments, such as moving to Paris, have likely exposed him to diverse cultures and traditions, influencing his perspectives and opportunities for collaboration.",
+        "timestamp": "2024-10-10T15:35:13.081Z"
+      }
+    ],
+    "Challenges and Resilience": [
+      {
+        "summary": "Ken faced challenges in adjusting to a new environment when his family moved to Paris, but he showed resilience by exploring different opportunities and finding excitement in collaborative projects with a new friend who shared his passion for technology and gaming.",
+        "timestamp": "2024-10-10T15:35:13.090Z"
+      }
+    ]
+  }
+}
