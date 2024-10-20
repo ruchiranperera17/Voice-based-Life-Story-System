@@ -1,7 +1,7 @@
 import OpenAI from "openai";
 import User from "../models/user.js";
-import Question from '../models/Question.js'; 
-import Category from '../models/Category.js';
+import Question from '../models/question.js'; 
+import Category from '../models/category.js';
 import { initial_question, chat_responses } from '../prompt.js';
 
 /**
