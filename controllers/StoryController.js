@@ -1,7 +1,7 @@
 import OpenAI from "openai";
 import dotenv from "dotenv";
 import User from "../models/user.js";
-import Category from '../models/Category.js';
+import Category from '../models/category.js';
 import { build_narrative, build_summary } from '../prompt.js';
 
 dotenv.config();

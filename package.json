@@ -2,10 +2,9 @@
   "name": "voice-based_life_story_system",
   "version": "1.0.0",
   "description": "later",
-  "main": "index.js",
+  "main": "index.ts",
   "type": "module",
   "scripts": {
-    "start": "node index.js",
     "dev:start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -24,21 +23,13 @@
   },
   "homepage": "https://github.com/ruchiranperera17/Voice-based-Life-Story-System#readme",
   "dependencies": {
-    "axios": "^1.7.7",
-    "body-parser": "^1.20.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
-    "express": "^4.21.1",
-    "mongoose": "^8.7.1",
-    "openai": "^4.53.0",
-    "react-router-dom": "^6.27.0"
+    "express": "^4.19.2",
+    "mongoose": "^8.5.1",
+    "openai": "^4.53.0"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "@types/react": "^18.3.11",
-    "@types/react-dom": "^18.3.1",
-    "nodemon": "^3.1.4",
-    "tailwindcss": "^3.4.13",
-    "typescript": "^5.6.3"
+    "nodemon": "^3.1.4"
   }
 }

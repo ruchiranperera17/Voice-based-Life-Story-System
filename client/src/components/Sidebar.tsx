@@ -13,14 +13,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
     toggleSidebar();
   };
 
-  // Updated navigation items with the new components
   const navigationItems = [
     { name: "Stories", path: "/stories" },
     { name: "Summaries", path: "/summaries" },
     { name: "User Responses", path: "/user-responses" },
-    // Updated items for the Category and Question
-    { name: "Category", path: "/categories" },
-    { name: "Question", path: "/questions" },
   ];
 
   return (
